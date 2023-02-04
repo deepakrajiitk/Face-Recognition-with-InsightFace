@@ -1,5 +1,6 @@
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
+from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import KFold
 from keras.models import load_model
 import matplotlib.pyplot as plt
@@ -29,8 +30,12 @@ le = LabelEncoder()
 labels = le.fit_transform(data["names"])
 num_classes = len(np.unique(labels))
 labels = labels.reshape(-1, 1)
-one_hot_encoder = OneHotEncoder(categorical_features = [0])
-labels = one_hot_encoder.fit_transform(labels).toarray()
+
+# one_hot_encoder = OneHotEncoder(categorical_features = [0])
+# labels = one_hot_encoder.fit_transform(labels).toarray()
+
+ct = ColumnTransformer([("Country", OneHotEncoder(), [0])], remainder = 'passthrough')
+labels = ct.fit_transform(labels).toarray()
 
 embeddings = np.array(data["embeddings"])
 
@@ -54,10 +59,10 @@ for train_idx, valid_idx in cv.split(embeddings):
                     epochs=EPOCHS,
                     verbose=1,
                     validation_data=(X_val, y_val))
-    print(his.history['acc'])
+    print(his.history['accuracy'])
 
-    history['acc'] += his.history['acc']
-    history['val_acc'] += his.history['val_acc']
+    history['acc'] += his.history['accuracy']
+    history['val_acc'] += his.history['val_accuracy']
     history['loss'] += his.history['loss']
     history['val_loss'] += his.history['val_loss']
 

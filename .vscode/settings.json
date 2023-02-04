@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./insightface/src/common",
+        "./insightface/deploy"
+    ]
+}
