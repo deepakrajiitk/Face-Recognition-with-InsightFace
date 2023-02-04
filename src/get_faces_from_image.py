@@ -61,7 +61,7 @@ for person in persons:
             #     os.makedirs(args["output"])
             cv2.imwrite(os.path.join(output_path, "{}.jpg".format(img_count+1)), nimg)
             cv2.rectangle(img, (max_bbox[0], max_bbox[1]), (max_bbox[2], max_bbox[3]), (255, 0, 0), 2)
-            # print("[INFO] {} faces detected".format(img_count+1))
+            # print("[INFO] {} faces detected in the image".format(img_count+1))
             img_count += 1
 
 
